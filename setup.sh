@@ -1,4 +1,4 @@
 path=$(pwd)
 
 # Vim
-ln -sf $path/.vimrc $HOME/.vimrc
+ln -sf $path/vim/.vimrc $HOME/.vimrc
