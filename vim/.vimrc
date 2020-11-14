@@ -1,16 +1,3 @@
-call plug#begin('~/.vim/plugged')
-
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'preservim/nerdtree'
-Plug 'leafgarland/typescript-vim'
-Plug 'pangloss/vim-javascript'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'jparise/vim-graphql'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'preservim/nerdcommenter'
-
-call plug#end()
-
 set noerrorbells
 set smartcase
 set noswapfile
@@ -32,12 +19,11 @@ set noshowmode
 set background=dark
 
 syntax on
-colorscheme dracula
 
 filetype plugin on
 
 let mapleader = " "
-nnoremap W :w<CR>
+nnoremap <C-w> :w<CR>
 
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
