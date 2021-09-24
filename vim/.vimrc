@@ -1,12 +1,14 @@
 set noerrorbells
+set guicursor=
 set smartcase
 set noswapfile
 set nobackup
+set undodir=~/.vim/undodir
+set undofile
 set incsearch
 set hidden
 set completeopt=menuone,noinsert,noselect
 set shortmess+=c
-set autoindent
 set smartindent
 set tabstop=2
 set softtabstop=2
@@ -17,20 +19,22 @@ set relativenumber
 set nowrap
 set noshowmode
 set background=dark
+set nohlsearch
+set scrolloff=8
+set signcolumn=yes
+set clipboard+=unnamedplus
 
 syntax on
 
-filetype plugin on
-
 let mapleader = " "
-nnoremap <C-w> :w<CR>
 
+nnoremap <C-s> :w<CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
-nnoremap <leader>+ :vertical resize +5<CR>
-nnoremap <leader>- :vertical resize -5<CR>
+xnoremap > >gv
+xnoremap < <gv
 
-nmap <leader>o o<Esc>
-nmap <leader>O O<Esc>
+nnoremap <leader>o o<Esc>
+nnoremap <leader>O O<Esc>
