@@ -1,14 +1,13 @@
 set noerrorbells
 set guicursor=
 set smartcase
-set smartindent
 set noswapfile
 set nobackup
-set undodir=~/.vim/undodir
-set undofile
 set incsearch
 set hidden
+set completeopt=menuone,noinsert,noselect
 set shortmess+=c
+set smartindent
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -31,20 +30,18 @@ function! StatuslineGit()
 endfunction
 
 set statusline=
-set statusline+=%#PmenuSel#
+set statusline+=%#Search#
 set statusline+=%{StatuslineGit()}
-set statusline+=%#LineNr#
+set statusline+=%#Visual#
 set statusline+=\ %f
 set statusline+=%m\
 set statusline+=%=
-set statusline+=%#CursorColumn#
-set statusline+=\ %y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
-set statusline+=\ %p%%
 set statusline+=\ %l:%c
 
 syntax on
+filetype plugin on
 
 let mapleader = " "
 
@@ -64,3 +61,6 @@ nnoremap <leader>O O<Esc>
 nmap te :tabedit 
 nmap <S-Tab> :tabprev<Return>
 nmap <Tab> :tabnext<Return>
+
+au FocusGained,BufEnter * :silent! !
+au FocusLost,WinLeave * :silent! noautocmd w

@@ -7,5 +7,8 @@ ln -sf $path/vim/.vimrc $HOME/.vimrc
 [ ! -d $HOME/.config/nvim ] && mkdir -p $HOME/.config/nvim
 ln -sf $path/nvim/init.vim $HOME/.config/nvim/init.vim
 
+# tmux
+ln -sf $path/tmux/.tmux.conf $HOME/.tmux.conf
+
 # zsh
-cp $path/zsh/.zshrc $HOME/.zshrc
+ln -sf $path/zsh/.zshrc $HOME/.zshrc
