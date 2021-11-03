@@ -1,6 +1,6 @@
 set noerrorbells
 set guicursor=
-set smartcase
+set ignorecase
 set noswapfile
 set nobackup
 set incsearch
@@ -40,8 +40,21 @@ set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
 set statusline+=\ %l:%c
 
+set list 
+set list!
+set listchars=tab:▸\
+set listchars+=trail:·
+set listchars+=eol:↴
+set listchars+=nbsp:_
+
+set undodir=~/.config/nvim/undos
+set undofile
+
 syntax on
-filetype plugin on
+
+autocmd BufEnter * :syntax sync fromstart
+au FocusGained,BufEnter * :silent! !
+au FocusLost,WinLeave * :silent! noautocmd w
 
 let mapleader = " "
 
@@ -52,15 +65,11 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 xnoremap > >gv
 xnoremap < <gv
-
 nnoremap <leader>o o<Esc>
 nnoremap <leader>O O<Esc>
 
-"-----------------------------
-" Tabs
-nmap te :tabedit 
-nmap <S-Tab> :tabprev<Return>
-nmap <Tab> :tabnext<Return>
+" Copy to system clipboard
+xnoremap <leader>y "+y
 
-au FocusGained,BufEnter * :silent! !
-au FocusLost,WinLeave * :silent! noautocmd w
+" Run Prettier
+nnoremap <leader>gp :silent %!prettier --stdin-filepath %<CR>

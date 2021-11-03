@@ -16,12 +16,30 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'pantharshit00/vim-prisma'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'arcticicestudio/nord-vim'
+Plug 'ThePrimeagen/harpoon'
 
 call plug#end()
 
 colorscheme nord
+
+" Harpoon
+lua <<EOF
+require("harpoon").setup({
+  global_settings = {
+    save_on_toggle = false,
+    save_on_change = true,
+    enter_on_sendcmd = false,
+  }
+})
+EOF
+
+nnoremap <leader>nm :lua require("harpoon.mark").add_file()<CR>
+nnoremap <leader>nl :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nnoremap <leader>n1 :lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <leader>n2 :lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <leader>n3 :lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <leader>n4 :lua require("harpoon.ui").nav_file(4)<CR>
 
 " Autocomplete
 set completeopt=menu,menuone,noselect
@@ -69,10 +87,9 @@ lua <<EOF
     buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', 'rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
@@ -101,9 +118,24 @@ EOF
 
 " Telescope
 nnoremap <leader>ps :lua require('telescope.builtin').find_files()<CR>
+nnoremap <leader>pe :lua require('telescope.builtin').file_browser()<CR>
 nnoremap <leader>pw :lua require('telescope.builtin').live_grep()<CR>
 nnoremap <silent>\\ :lua require('telescope.builtin').buffers()<CR>
-nnoremap <leader>ph :lua require('telescope.builtin').help_tags()<CR>
+
+lua <<EOF
+require("telescope").setup {
+  pickers = {
+    buffers = {
+      sort_lastused = true,
+      mappings = {
+        i = {
+          ["<c-d>"] = "delete_buffer",
+        }
+      }
+    }
+  }
+}
+EOF
 
 " Treesitter
 lua <<EOF
@@ -111,8 +143,5 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
   },
-  indent = {
-    false = true,
-  }
 }
 EOF
