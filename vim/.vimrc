@@ -72,4 +72,4 @@ nnoremap <leader>O O<Esc>
 xnoremap <leader>y "+y
 
 " Run Prettier
-nnoremap <leader>gp :silent %!prettier --stdin-filepath %<CR>
+nnoremap <leader>gp :silent %!npx prettier --stdin-filepath %<CR>
