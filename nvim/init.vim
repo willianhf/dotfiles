@@ -129,7 +129,7 @@ require("telescope").setup {
       sort_lastused = true,
       mappings = {
         i = {
-          ["<c-d>"] = "delete_buffer",
+          ["<c-x>"] = "delete_buffer",
         }
       }
     }

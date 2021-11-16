@@ -73,3 +73,6 @@ xnoremap <leader>y "+y
 
 " Run Prettier
 nnoremap <leader>gp :silent %!npx prettier --stdin-filepath %<CR>
+
+" Replace selected text
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
