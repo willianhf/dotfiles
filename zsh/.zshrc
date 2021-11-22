@@ -81,7 +81,6 @@ export EDITOR='nvim'
 alias gst='git status'
 alias gaa='git add -A'
 alias gc='git commit'
-alias gcm='git checkout main'
 alias gd='git diff'
 alias gdc='git diff --cached'
 # [c]heck [o]ut
@@ -89,19 +88,16 @@ alias co='git checkout'
 alias up='git push'
 alias pu='git pull'
 alias fe='git fetch'
-alias lr='git l -30'
 alias cdr='cd $(git rev-parse --show-toplevel)' # cd to git Root
-alias hs='git rev-parse --short HEAD'
-alias hm='git log --format=%B -n 1 HEAD'
 
 # tmux
 alias tma='tmux attach -t'
 alias tmn='tmux new -s'
 
 # ceedee dot dot dot
+alias -g ..='..'
 alias -g ...='../..'
 alias -g ....='../../..'
-alias -g .....='../../../..'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -191,3 +187,8 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_EXECUTABLE_PATH=`which chromium`
+
+export TERM=xterm-256color

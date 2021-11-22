@@ -16,12 +16,14 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'pantharshit00/vim-prisma'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
-Plug 'arcticicestudio/nord-vim'
 Plug 'ThePrimeagen/harpoon'
+Plug 'cocopon/iceberg.vim'
+Plug 'tpope/vim-commentary'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
 call plug#end()
 
-colorscheme nord
+colorscheme iceberg
 
 " Harpoon
 lua <<EOF
@@ -69,8 +71,11 @@ lua <<EOF
     },
     sources = {
       { name = 'nvim_lsp' },
-      { name = 'buffer' },
       { name = 'vsnip' }, 
+      { name = 'buffer', keyword_length = 5 },
+    },
+    experimental = {
+      native_menu = true,
     },
   })
 
@@ -124,12 +129,15 @@ nnoremap <silent>\\ :lua require('telescope.builtin').buffers()<CR>
 
 lua <<EOF
 require("telescope").setup {
+  defaults = {
+    disable_devicons = true
+  },
   pickers = {
     buffers = {
       sort_lastused = true,
       mappings = {
         i = {
-          ["<c-x>"] = "delete_buffer",
+          ["<c-x>"] = "delete_buffer"
         }
       }
     }
@@ -141,7 +149,16 @@ EOF
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
-    enable = true,
-  },
+    enable = true
+  }
+}
+EOF
+
+" Comment
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  context_commentstring = {
+    enable = true
+  }
 }
 EOF
