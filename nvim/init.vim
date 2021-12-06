@@ -26,6 +26,8 @@ call plug#end()
 let g:selected_colorscheme = "onedark"
 fun! ApplyColorscheme()
   set background=dark
+  let g:onedark_termcolors=16
+
   if has('nvim')
     call luaeval('vim.cmd("colorscheme " .. _A[1])', [g:selected_colorscheme])
   else
