@@ -18,67 +18,27 @@ Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'ThePrimeagen/harpoon'
 Plug 'cocopon/iceberg.vim'
-Plug 'tpope/vim-commentary'
-Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'numToStr/Comment.nvim'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
-colorscheme iceberg
+let g:selected_colorscheme = "onedark"
+fun! ApplyColorscheme()
+  set background=dark
+  if has('nvim')
+    call luaeval('vim.cmd("colorscheme " .. _A[1])', [g:selected_colorscheme])
+  else
+    colorscheme onedark
+  endif
+endfun
+call ApplyColorscheme()
 
-" Harpoon
+nnoremap <leader>cmp :call ApplyColorscheme()<CR>
+nnoremap <leader>vwb :let g:selected_colorscheme =
+
+" LSP
 lua <<EOF
-require("harpoon").setup({
-  global_settings = {
-    save_on_toggle = false,
-    save_on_change = true,
-    enter_on_sendcmd = false,
-  }
-})
-EOF
-
-nnoremap <leader>nm :lua require("harpoon.mark").add_file()<CR>
-nnoremap <leader>nl :lua require("harpoon.ui").toggle_quick_menu()<CR>
-nnoremap <leader>n1 :lua require("harpoon.ui").nav_file(1)<CR>
-nnoremap <leader>n2 :lua require("harpoon.ui").nav_file(2)<CR>
-nnoremap <leader>n3 :lua require("harpoon.ui").nav_file(3)<CR>
-nnoremap <leader>n4 :lua require("harpoon.ui").nav_file(4)<CR>
-
-" Autocomplete
-set completeopt=menu,menuone,noselect
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-
-lua <<EOF
-  -- Setup nvim-cmp.
-  local cmp = require'cmp'
-
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-      end,
-    },
-    mapping = {
-      ['<Tab>'] = cmp.mapping.select_next_item(),
-      ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.close(),
-      ['<CR>'] = cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
-      }),
-    },
-    sources = {
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' }, 
-      { name = 'buffer', keyword_length = 5 },
-    },
-    experimental = {
-      native_menu = true,
-    },
-  })
-
   local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -121,44 +81,121 @@ lua <<EOF
   end
 EOF
 
+" Treesitter
+lua <<EOF
+  require'nvim-treesitter.configs'.setup {
+    highlight = {
+      enable = true
+    }
+  }
+EOF
+
+" cmp
+set completeopt=menu,menuone,noselect
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+
+lua <<EOF
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+    mapping = {
+      ['<Tab>'] = cmp.mapping.select_next_item(),
+      ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.close(),
+      ['<CR>'] = cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      }),
+    },
+    sources = {
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, 
+      { name = 'buffer', keyword_length = 5 },
+    },
+    experimental = {
+      native_menu = true,
+    },
+  })
+EOF
+
 " Telescope
+lua <<EOF
+  require("telescope").setup {
+    defaults = {
+      disable_devicons = true
+    },
+    pickers = {
+      buffers = {
+        sort_lastused = true,
+        mappings = {
+          i = {
+            ["<c-x>"] = "delete_buffer"
+          }
+        }
+      }
+    }
+  }
+EOF
+
 nnoremap <leader>ps :lua require('telescope.builtin').find_files()<CR>
 nnoremap <leader>pe :lua require('telescope.builtin').file_browser()<CR>
 nnoremap <leader>pw :lua require('telescope.builtin').live_grep()<CR>
 nnoremap <silent>\\ :lua require('telescope.builtin').buffers()<CR>
 
-lua <<EOF
-require("telescope").setup {
-  defaults = {
-    disable_devicons = true
-  },
-  pickers = {
-    buffers = {
-      sort_lastused = true,
-      mappings = {
-        i = {
-          ["<c-x>"] = "delete_buffer"
-        }
-      }
-    }
-  }
-}
-EOF
-
-" Treesitter
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true
-  }
-}
-EOF
-
 " Comment
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  context_commentstring = {
-    enable = true
+  local comment_ft = require "Comment.ft"
+
+  comment_ft.set("lua", { "--%s", "--[[%s]]" })
+
+  require('Comment').setup {
+    ignore = nil,
+
+    -- LHS of operator-pending mapping in NORMAL + VISUAL mode
+    opleader = {
+      -- line-comment keymap
+      line = "gc",
+      -- block-comment keymap
+      block = "gb",
+    },
+
+    -- Create basic (operator-pending) and extended mappings for NORMAL + VISUAL mode
+    mappings = {
+      -- operator-pending mapping
+      -- Includes `gcc`, `gcb`, `gc[count]{motion}` and `gb[count]{motion}`
+      basic = true,
+
+      -- extra mapping
+      -- Includes `gco`, `gcO`, `gcA`
+      extra = true,
+
+      -- extended mapping
+      -- Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
+      extended = false,
+    },
+
+    -- LHS of toggle mapping in NORMAL + VISUAL mode
+    -- @type table
+    toggler = {
+      -- line-comment keymap
+      line = "gcc",
+
+      -- block-comment keymap
+      block = "gbc",
+    },
+
+    -- Pre-hook, called before commenting the line
+    -- pre_hook = pre_hook,
+
+    -- Post-hook, called after commenting is done
+    post_hook = nil,
   }
-}
 EOF

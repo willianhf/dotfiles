@@ -15,7 +15,6 @@ set expandtab
 set number
 set nowrap
 set noshowmode
-set background=dark
 set nohlsearch
 set scrolloff=8
 set signcolumn=yes
@@ -50,12 +49,6 @@ set listchars+=nbsp:_
 set undodir=~/.config/nvim/undos
 set undofile
 
-syntax on
-
-autocmd BufEnter * :syntax sync fromstart
-au FocusGained,BufEnter * :silent! !
-au FocusLost,WinLeave * :silent! noautocmd w
-
 let mapleader = " "
 
 nnoremap <C-s> :w<CR>
@@ -69,10 +62,10 @@ nnoremap <leader>o o<Esc>
 nnoremap <leader>O O<Esc>
 
 " Copy to system clipboard
-xnoremap <leader>y "+y
+xnoremap <leader>y "*y
 
-" Run Prettier
-nnoremap <leader>gp :silent %!npx prettier --stdin-filepath %<CR>
+" Paste from system clipboard
+xnoremap <leader>p "*p
 
 " Replace selected text
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <C-r> "hy:%s/<C-r>h//g<left><left>
