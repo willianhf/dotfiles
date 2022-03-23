@@ -77,15 +77,13 @@ source $ZSH/oh-my-zsh.sh
 
 alias vim='nvim'
 alias vi='vim'
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # git
 alias gst='git status'
 alias gaa='git add -A'
 alias gc='git commit'
 alias gd='git diff'
-alias gdc='git diff --cached'
-# [c]heck [o]ut
 alias co='git checkout'
 alias up='git push'
 alias pu='git pull'
@@ -157,6 +155,8 @@ zinit light-mode for \
 zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
+zinit ice depth=1
+zinit light jeffreytse/zsh-vi-mode
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -194,3 +194,6 @@ export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_EXECUTABLE_PATH=`which chromium`
 
 export TERM=xterm-256color
+
+export PATH=$PATH:/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
+export PATH=$PATH:/opt/apache-maven-3.8.4/bin

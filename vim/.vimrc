@@ -25,10 +25,34 @@ endfunction
 
 function! StatuslineGit()
   let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+  return strlen(l:branchname) > 0 ? ' '.l:branchname.' ' : ''
 endfunction
 
+let g:currentmode={
+    \ 'n'  : 'Normal',
+    \ 'no' : 'Normal·Operator Pending',
+    \ 'v'  : 'Visual',
+    \ 'V'  : 'V·Line',
+    \ '^V' : 'V·Block',
+    \ 's'  : 'Select',
+    \ 'S'  : 'S·Line',
+    \ '^S' : 'S·Block',
+    \ 'i'  : 'Insert',
+    \ 'R'  : 'Replace',
+    \ 'Rv' : 'V·Replace',
+    \ 'c'  : 'Command',
+    \ 'cv' : 'Vim Ex',
+    \ 'ce' : 'Ex',
+    \ 'r'  : 'Prompt',
+    \ 'rm' : 'More',
+    \ 'r?' : 'Confirm',
+    \ '!'  : 'Shell',
+    \ 't'  : 'Terminal'
+    \}
+
 set statusline=
+set statusline+=%#Visual#
+set statusline+=\ %{toupper(g:currentmode[mode()])}\ 
 set statusline+=%#Search#
 set statusline+=%{StatuslineGit()}
 set statusline+=%#Visual#
@@ -37,14 +61,11 @@ set statusline+=%m\
 set statusline+=%=
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
-set statusline+=\ %l:%c
+set statusline+=\%l:%c
 
 set list 
-set list!
-set listchars=tab:▸\
-set listchars+=trail:·
-set listchars+=eol:↴
-set listchars+=nbsp:_
+set listchars=tab:»\ ,eol:↴,nbsp:␣,trail:·,extends:<,precedes:>,conceal:┊
+set showbreak=↪\
 
 set undodir=~/.config/nvim/undos
 set undofile
