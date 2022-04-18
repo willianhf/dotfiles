@@ -19,6 +19,14 @@ set nohlsearch
 set scrolloff=8
 set signcolumn=yes
 
+" true color
+if exists("&termguicolors") && exists("&winblend")
+  set winblend=0
+  set wildoptions=pum
+  set pumblend=5
+  set background=dark
+endif
+
 function! GitBranch()
   return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction

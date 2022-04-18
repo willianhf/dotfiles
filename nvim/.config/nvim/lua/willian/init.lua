@@ -1,0 +1,6 @@
+require'willian.plugins'
+require'willian.lsp'
+require'willian.cmp'
+require'willian.treesitter'
+require'willian.telescope'
+require'willian.comment'
