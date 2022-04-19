@@ -5,4 +5,5 @@ lua <<EOF
   require'willian'
 EOF
 
-colorscheme iceberg
+let g:onedark_termcolors=16
+colorscheme onedark

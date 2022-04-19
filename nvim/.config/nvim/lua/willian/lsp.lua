@@ -1,23 +1,5 @@
 local lspconfig = require'lspconfig'
 
--- Global diagnostic config
-vim.diagnostic.config({
-  underline = { severity_limit = "Error" },
-  signs = true,
-  update_in_insert = false,
-})
-
--- Add border like lspsaga
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-  width = 80,
-  border = 'single',
-})
-
--- Add border like lspsaga
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signatureHelp, {
-  border = 'single',
-})
-
 -- Code action popup
 -- but only use it if installed
 local success_lsputils, lsputils_codeAction = pcall(require, 'lsputil.codeAction')
@@ -45,7 +27,6 @@ local function on_attach(client, bufnr)
   lsp_map('n', 'gW',         '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
   lsp_map('n', 'gr',         '<cmd>lua vim.lsp.buf.references()<CR>')
   lsp_map('n', 'gt',         '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  lsp_map('n', '<leader>le', '<cmd>lua vim.diagnostic.setloclist()<CR>')
   lsp_map('n', '<leader>p', '<cmd>lua vim.lsp.buf.formatting()<CR>')
   lsp_map('n', 'K',          '<cmd>lua vim.lsp.buf.hover()<CR>')
   lsp_map('n', '<c-k>',      '<cmd>lua vim.lsp.buf.signature_help()<CR>')
@@ -55,7 +36,7 @@ local function on_attach(client, bufnr)
   local diag_opts = '{ width = 80, focusable = false, border = "single" }'
   lsp_map(
     'n',
-    '<leader>ls',
+    '<leader>e',
     string.format('<cmd>lua vim.diagnostic.open_float(%d, %s)<CR>', bufnr, diag_opts)
   )
 
@@ -92,14 +73,13 @@ nls.setup({
   sources = {
     require("null-ls").builtins.formatting.stylua,
     require("null-ls").builtins.formatting.prettier,
-    require("null-ls").builtins.diagnostics.eslint,
+    require("null-ls").builtins.diagnostics.eslint_d,
   },
 })
 
 local tw_highlight = require('tailwind-highlight')
 lspconfig.tailwindcss.setup({
   on_attach = function(client, bufnr)
-    -- rest of you config
     tw_highlight.setup(client, bufnr, {
       single_column = false,
       mode = 'background',
@@ -108,22 +88,4 @@ lspconfig.tailwindcss.setup({
   end
 })
 
-local function organize_imports()
-  local params = {
-    command = "_typescript.organizeImports",
-    arguments = {vim.api.nvim_buf_get_name(0)},
-    title = ""
-  }
-  vim.lsp.buf.execute_command(params)
-end
-
-lspconfig.tsserver.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  commands = {
-    OrganizeImports = {
-      organize_imports,
-      description = "Organize Imports"
-    }
-  }
-}
+lspconfig.tsserver.setup(default_config)

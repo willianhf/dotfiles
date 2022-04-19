@@ -20,5 +20,6 @@ Plug 'cocopon/iceberg.vim'
 Plug 'numToStr/Comment.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'princejoogie/tailwind-highlight.nvim'
+Plug 'joshdick/onedark.vim'
 
 Plug.ends()
