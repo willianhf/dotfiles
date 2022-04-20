@@ -18,8 +18,6 @@ local function lsp_map(mode, left_side, right_side)
 end
 
 local function on_attach(client, bufnr)
-  print('Attaching to ' .. client.name)
-
   lsp_map('n', 'gd',         '<cmd>lua vim.lsp.buf.definition()<CR>')
   lsp_map('n', 'gD',         '<cmd>lua vim.lsp.buf.declaration()<CR>')
   lsp_map('n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')

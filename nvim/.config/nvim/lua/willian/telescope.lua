@@ -29,4 +29,4 @@ utils.key_mapper('n', '<leader>ps', ':lua require "telescope.builtin".find_files
 utils.key_mapper('n', '<leader>pe', ':lua require "telescope.builtin".file_browser()<CR>')
 utils.key_mapper('n', '<leader>pw', ':lua require "telescope.builtin".live_grep()<CR>')
 utils.key_mapper('n', '<leader>ph', ':lua require "telescope.builtin".help_tags()<CR>')
-utils.key_mapper('n', '<leader>\\', ':lua require "telescope.builtin".buffers()<CR>')
+utils.key_mapper('n', '\\', ':lua require "telescope.builtin".buffers()<CR>')
