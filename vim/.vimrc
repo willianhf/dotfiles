@@ -70,7 +70,9 @@ set showbreak=↪\
 set undodir=~/.config/nvim/undos
 set undofile
 
-let mapleader = " "
+nnoremap <SPACE> <Nop>
+
+let mapleader = "\<Space>"
 
 nnoremap <C-s> :w<CR>
 nnoremap <leader>h :wincmd h<CR>
@@ -84,9 +86,6 @@ nnoremap <leader>O O<Esc>
 
 " Copy to system clipboard
 xnoremap <leader>y "*y
-
-" Paste from system clipboard
-xnoremap <leader>p "*p
 
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -105,4 +104,4 @@ if (empty($TMUX))
 endif
 
 syntax on
-colorscheme iceberg
+colorscheme github

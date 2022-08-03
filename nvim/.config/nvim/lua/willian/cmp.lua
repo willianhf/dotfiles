@@ -1,6 +1,11 @@
 local utils = require'willian.utils'
 local cmp = require'cmp'
 
+vim.o.completeopt = 'menuone,noselect'
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 -- vsnip
 vim.g.vsnip_filetypes = {
   javascriptreact = {'javascript'},
@@ -38,6 +43,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
+    { name = 'path' },
     { name = 'buffer', keyword_length = 5 },
   },
 
@@ -46,6 +52,7 @@ cmp.setup {
       item.menu = ({
         nvim_lsp = '[lsp]',
         vsnip = '[vsnip]',
+        path = '[path]',
         buffer = '[buffer]',
       })[entry.source.name]
 
