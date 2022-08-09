@@ -19,23 +19,28 @@ utils.key_mapper('n', '<leader>nd', '<cmd>lua vim.diagnostic.goto_next()<CR>')
 -- one at a time in the floating window)
 utils.key_mapper('n', '<leader>pd', '<cmd>lua vim diagnostic.goto_prev()<CR>')
 
-local function lsp_map(mode, left_side, right_side)
-  vim.api.nvim_buf_set_keymap(vim.api.nvim_get_current_buf(), mode, left_side, right_side, { noremap = true, silent = true })
-end
-
 local function on_attach(client, bufnr)
-  lsp_map('n', 'gd',         '<cmd>lua vim.lsp.buf.definition()<CR>')
-  lsp_map('n', 'gD',         '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  lsp_map('n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  lsp_map('n', 'gw',         '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
-  lsp_map('n', 'gW',         '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
-  lsp_map('n', 'gr',         '<cmd>lua vim.lsp.buf.references()<CR>')
-  lsp_map('n', 'gt',         '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  lsp_map('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-  lsp_map('n', 'K',          '<cmd>lua vim.lsp.buf.hover()<CR>')
-  lsp_map('n', '<c-k>',      '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-  lsp_map('n', '<leader>.', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-  lsp_map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  local opts = { noremap = true, silent = true }
+
+  buf_set_keymap('n', 'gd',         '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gD',         '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', 'gw',         '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+  buf_set_keymap('n', 'gW',         '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+  buf_set_keymap('n', 'gr',         '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', 'gt',         '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', 'K',          '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<c-k>',      '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<leader>.', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<leader>o', '<cmd>OrganizeImports<CR>', opts)
 
   -- disable formatting from tsserver
   if client.name == 'tsserver' then
@@ -43,7 +48,40 @@ local function on_attach(client, bufnr)
   end
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local protocol = require('vim.lsp.protocol')
+
+protocol.CompletionItemKind = {
+  '', -- Text
+  '', -- Method
+  '', -- Function
+  '', -- Constructor
+  '', -- Field
+  '', -- Variable
+  '', -- Class
+  'ﰮ', -- Interface
+  '', -- Module
+  '', -- Property
+  '', -- Unit
+  '', -- Value
+  '', -- Enum
+  '', -- Keyword
+  '﬌', -- Snippet
+  '', -- Color
+  '', -- File
+  '', -- Reference
+  '', -- Folder
+  '', -- EnumMember
+  '', -- Constant
+  '', -- Struct
+  '', -- Event
+  'ﬦ', -- Operator
+  '', -- TypeParameter
+}
+
+-- Set up completion using nvim_cmp with LSP source
+local capabilities = require('cmp_nvim_lsp').update_capabilities(
+  vim.lsp.protocol.make_client_capabilities()
+)
 
 local default_config = {
   on_attach = on_attach,
@@ -57,25 +95,54 @@ lspconfig.dockerls.setup(default_config)
 lspconfig.html.setup(default_config)
 lspconfig.jsonls.setup(default_config)
 lspconfig.yamlls.setup(default_config)
+lspconfig.tailwindcss.setup {}
 
-local nls = require('null-ls')
-nls.setup({
+lspconfig.sumneko_lua.setup {
+  on_attach = on_attach,
+  cmd = { "lua-language-server" },
+  settings = {
+    Lua = {
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'vim' },
+      },
+
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false
+      },
+    },
+  },
+}
+
+local null_ls = require('null-ls')
+null_ls.setup({
   sources = {
-    require("null-ls").builtins.formatting.prettierd,
-    require("null-ls").builtins.diagnostics.eslint_d,
-    require("null-ls").builtins.formatting.prismaFmt
+    null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.diagnostics.eslint_d.with({
+      diagnostics_format = '[eslint] #{m}\n(#{c})'
+    }),
+    null_ls.builtins.formatting.prismaFmt
   },
 })
 
-local tw_highlight = require('tailwind-highlight')
-lspconfig.tailwindcss.setup({
-  on_attach = function(client, bufnr)
-    tw_highlight.setup(client, bufnr, {
-      single_column = false,
-      mode = 'background',
-      debounce = 200,
-    })
-  end
-})
+local function organize_imports()
+  local params = {
+    command = "_typescript.organizeImports",
+    arguments = {vim.api.nvim_buf_get_name(0)},
+    title = ""
+  }
+  vim.lsp.buf.execute_command(params)
+end
 
-lspconfig.tsserver.setup(default_config)
+lspconfig.tsserver.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  commands = {
+    OrganizeImports = {
+      organize_imports,
+      description = "Organize Imports"
+    }
+  }
+}

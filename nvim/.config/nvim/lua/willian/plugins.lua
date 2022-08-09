@@ -18,6 +18,8 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'tpope/vim-surround'
 Plug 'numToStr/Comment.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'onsails/lspkind.nvim'
 Plug 'princejoogie/tailwind-highlight.nvim'
+Plug 'mortepau/codicons.nvim'
 
 Plug.ends()
