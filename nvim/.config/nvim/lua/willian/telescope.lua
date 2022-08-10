@@ -1,5 +1,4 @@
-local telescope = require'telescope'
-local utils = require'willian.utils'
+local telescope = require 'telescope'
 
 telescope.setup {
   defaults = {
@@ -9,6 +8,14 @@ telescope.setup {
     file_browser = {
       hidden = true,
       disable_devicons = true,
+      theme = "dropdown",
+      -- disables netrw and use telescope-file-browser in its place
+      hijack_netrw = true,
+      mappings = {
+        ["i"] = {
+          ["<C-w>"] = function() vim.cmd('normal vbd') end
+        }
+      }
     },
     find_files = {
       hidden = true
@@ -24,8 +31,43 @@ telescope.setup {
   }
 }
 
-utils.key_mapper('n', '<leader>ps', ':lua require "telescope.builtin".find_files()<CR>')
-utils.key_mapper('n', '<leader>pe', ':lua require "telescope.builtin".file_browser({ cwd = require"telescope.utils".buffer_dir() })<CR>')
-utils.key_mapper('n', '<leader>pw', ':lua require "telescope.builtin".live_grep()<CR>')
-utils.key_mapper('n', '<leader>ph', ':lua require "telescope.builtin".help_tags()<CR>')
-utils.key_mapper('n', '\\', ':lua require "telescope.builtin".buffers()<CR>')
+telescope.load_extension('file_browser')
+
+local builtin = require("telescope.builtin")
+
+vim.keymap.set('n', '<leader>ps',
+  function()
+    builtin.find_files({
+      no_ignore = false,
+      hidden = true
+    })
+  end
+)
+
+vim.keymap.set('n', '<leader>pw',
+  function()
+    builtin.live_grep()
+  end
+)
+
+vim.keymap.set('n', '\\\\',
+  function()
+    builtin.buffers()
+  end
+)
+
+local function telescope_buffer_dir()
+  return vim.fn.expand('%:p:h')
+end
+
+vim.keymap.set('n', '<leader>pe',
+  function()
+    telescope.extensions.file_browser.file_browser({
+      path = '%:p:h',
+      cwd = telescope_buffer_dir(),
+      respect_gitignore = false,
+      hidden = true,
+      initial_mode = 'normal',
+    })
+  end
+)
