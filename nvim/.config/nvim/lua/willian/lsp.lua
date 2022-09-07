@@ -95,7 +95,7 @@ lspconfig.dockerls.setup(default_config)
 lspconfig.html.setup(default_config)
 lspconfig.jsonls.setup(default_config)
 lspconfig.yamlls.setup(default_config)
-lspconfig.tailwindcss.setup {}
+lspconfig.tailwindcss.setup(default_config)
 
 lspconfig.sumneko_lua.setup {
   on_attach = on_attach,

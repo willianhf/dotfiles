@@ -104,4 +104,4 @@ if (empty($TMUX))
 endif
 
 syntax on
-colorscheme github
+colorscheme desert

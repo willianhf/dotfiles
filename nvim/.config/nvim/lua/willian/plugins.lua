@@ -1,4 +1,4 @@
-local Plug = require'willian.vimplug'
+local Plug = require 'willian.vimplug'
 
 Plug.begin('~/.vim/plugged')
 
@@ -21,5 +21,8 @@ Plug 'numToStr/Comment.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'onsails/lspkind.nvim'
 Plug 'princejoogie/tailwind-highlight.nvim'
+Plug('folke/tokyonight.nvim', {
+  branch = 'main',
+})
 
 Plug.ends()
