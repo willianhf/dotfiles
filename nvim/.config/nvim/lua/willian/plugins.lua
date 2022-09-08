@@ -21,9 +21,6 @@ Plug 'numToStr/Comment.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'onsails/lspkind.nvim'
 Plug 'princejoogie/tailwind-highlight.nvim'
-Plug('folke/tokyonight.nvim', {
-  branch = 'main',
-})
 Plug 'simrat39/rust-tools.nvim'
 
 Plug.ends()
