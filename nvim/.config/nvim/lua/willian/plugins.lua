@@ -24,5 +24,6 @@ Plug 'princejoogie/tailwind-highlight.nvim'
 Plug('folke/tokyonight.nvim', {
   branch = 'main',
 })
+Plug 'simrat39/rust-tools.nvim'
 
 Plug.ends()
