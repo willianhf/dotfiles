@@ -12,14 +12,6 @@ vim.diagnostic.config({
 utils.key_mapper('n', '<leader>sd',
   '<cmd>lua vim.diagnostic.open_float({ width = 80, focusable = false, border = "single" })<CR>')
 
--- Go to next diagnostic (if there are multiple on the same line, only shows
--- one at a time in the floating window)
-utils.key_mapper('n', '<leader>nd', '<cmd>lua vim.diagnostic.goto_next()<CR>')
-
--- Go to prev diagnostic (if there are multiple on the same line, only shows
--- one at a time in the floating window)
-utils.key_mapper('n', '<leader>pd', '<cmd>lua vim diagnostic.goto_prev()<CR>')
-
 local function on_attach(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
@@ -91,12 +83,12 @@ local default_config = {
 }
 
 -- Language Servers
-
 lspconfig.bashls.setup(default_config)
 lspconfig.cssls.setup(default_config)
 lspconfig.dockerls.setup(default_config)
 lspconfig.html.setup(default_config)
 lspconfig.jsonls.setup(default_config)
+lspconfig.prismals.setup(default_config)
 
 local rust_tools = require("rust-tools")
 rust_tools.setup({
@@ -146,8 +138,7 @@ null_ls.setup({
     null_ls.builtins.formatting.prettierd,
     null_ls.builtins.diagnostics.eslint_d.with({
       diagnostics_format = '[eslint] #{m}\n(#{c})'
-    }),
-    null_ls.builtins.formatting.prismaFmt
+    })
   },
 })
 
