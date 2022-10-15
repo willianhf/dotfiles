@@ -158,6 +158,9 @@ zinit light zsh-users/zsh-completions
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
 
+bindkey '^I'   complete-word       # tab          | complete
+bindkey '^[[Z' autosuggest-accept  # shift + tab  | autosuggest
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -197,3 +200,11 @@ export TERM=xterm-256color
 
 export PATH=$PATH:/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
 export PATH=$PATH:/opt/apache-maven-3.8.4/bin
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# pnpm
+export PNPM_HOME="/Users/willianferreira/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
