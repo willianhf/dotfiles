@@ -1,9 +1,9 @@
-local cmp = require'cmp'
-local lspkind = require'lspkind'
+local cmp = require 'cmp'
+local lspkind = require 'lspkind'
 
 vim.g.vsnip_filetypes = {
-  javascriptreact = {'javascript'},
-  typescriptreact = {'typescript'},
+  javascriptreact = { 'javascript' },
+  typescriptreact = { 'typescript' },
 }
 
 cmp.setup {
