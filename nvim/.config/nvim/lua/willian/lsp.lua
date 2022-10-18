@@ -1,5 +1,4 @@
 local lspconfig = require 'lspconfig'
-local utils = require 'willian.utils'
 
 -- Global diagnostic config
 vim.diagnostic.config({
@@ -7,10 +6,6 @@ vim.diagnostic.config({
   signs = true,
   update_in_insert = false,
 })
-
--- Show all diagnostics on current line in floating window
-utils.key_mapper('n', '<leader>sd',
-  '<cmd>lua vim.diagnostic.open_float({ width = 80, focusable = false, border = "single" })<CR>')
 
 local function on_attach(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -29,16 +24,17 @@ local function on_attach(client, bufnr)
   buf_set_keymap('n', 'gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<c-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<leader>.', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<leader>o', '<cmd>OrganizeImports<CR>', opts)
+  buf_set_keymap('n', '<leader>sd',
+    '<cmd>lua vim.diagnostic.open_float({ width = 80, focusable = false, border = "single" })<CR>', opts)
 
-  -- disable formatting from tsserver
-  if client.name == 'tsserver' then
-    client.resolved_capabilities.document_formatting = false
+  if client.name == "tsserver" then
+    client.server_capabilities.document_formatting = false
   end
 end
 
@@ -73,9 +69,7 @@ protocol.CompletionItemKind = {
 }
 
 -- Set up completion using nvim_cmp with LSP source
-local capabilities = require('cmp_nvim_lsp').update_capabilities(
-  vim.lsp.protocol.make_client_capabilities()
-)
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local default_config = {
   on_attach = on_attach,
@@ -131,16 +125,6 @@ lspconfig.sumneko_lua.setup {
     },
   },
 }
-
-local null_ls = require('null-ls')
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.prettierd,
-    null_ls.builtins.diagnostics.eslint_d.with({
-      diagnostics_format = '[eslint] #{m}\n(#{c})'
-    })
-  },
-})
 
 local function organize_imports()
   local params = {

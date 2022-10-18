@@ -89,5 +89,3 @@ xnoremap <leader>y "*y
 
 syntax on
 set termguicolors
-let ayucolor="mirage"
-colorscheme ayu

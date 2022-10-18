@@ -2,7 +2,7 @@ vim.cmd [[packadd packer.nvim]]
 
 return require("packer").startup(function(use)
   use "wbthomason/packer.nvim"
-  
+
   use "neovim/nvim-lspconfig"
   use "kabouzeid/nvim-lspinstall"
   use "nvim-lua/popup.nvim"
@@ -19,9 +19,9 @@ return require("packer").startup(function(use)
   use "hrsh7th/cmp-buffer"
   use "hrsh7th/cmp-vsnip"
   use "hrsh7th/vim-vsnip"
+  use "jose-elias-alvarez/null-ls.nvim"
   use "tpope/vim-surround"
   use "numToStr/Comment.nvim"
-  use "jose-elias-alvarez/null-ls.nvim"
   use "onsails/lspkind.nvim"
   use "simrat39/rust-tools.nvim"
   use {
