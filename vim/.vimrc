@@ -70,6 +70,10 @@ set showbreak=↪\
 set undodir=~/.config/nvim/undos
 set undofile
 
+let g:netrw_keepdir = 0
+let g:netrw_banner = 0
+let g:netrw_localcopydircmd = 'cp -r'
+
 nnoremap <SPACE> <Nop>
 
 let mapleader = "\<Space>"
@@ -86,6 +90,9 @@ nnoremap <leader>O O<Esc>
 
 " Copy to system clipboard
 xnoremap <leader>y "*y
+
+" Paste from system clipboard
+xnoremap <leader>p "*p
 
 syntax on
 set termguicolors
