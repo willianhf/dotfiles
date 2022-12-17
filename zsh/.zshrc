@@ -85,12 +85,14 @@ export EDITOR='nvim'
 alias gst='git status'
 alias gaa='git add -A'
 alias gc='git commit'
+alias commit='git commit'
 alias gd='git diff'
+alias diff='git diff'
 alias co='git checkout'
-alias up='git push'
-alias pu='git pull'
-alias fe='git fetch'
-alias cdr='cd $(git rev-parse --show-toplevel)' # cd to git Root
+alias checkout='git checkout'
+alias push='git push'
+alias pull='git pull'
+alias fetch='git fetch'
 
 # tmux
 alias tma='tmux attach -t'
