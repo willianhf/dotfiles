@@ -202,9 +202,6 @@ export PUPPETEER_EXECUTABLE_PATH=`which chromium`
 
 export TERM=xterm-256color
 
-export PATH=$PATH:/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
-export PATH=$PATH:/opt/apache-maven-3.8.4/bin
-
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
@@ -212,3 +209,8 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 export PNPM_HOME="/Users/willianferreira/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+
+# jenv
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+# jenv end
