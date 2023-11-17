@@ -98,10 +98,7 @@ alias fetch='git fetch'
 alias tma='tmux attach -t'
 alias tmn='tmux new -s'
 
-# ceedee dot dot dot
-alias -g ..='..'
-alias -g ...='../..'
-alias -g ....='../../..'
+fpath+=~/.zfunc
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -180,3 +177,10 @@ zinit ice depth=1
 
 bindkey '^I'   complete-word       # tab          | complete
 bindkey '^[[Z' autosuggest-accept  # shift + tab  | autosuggest
+
+# bun completions
+[ -s "/Users/willianhf/.bun/_bun" ] && source "/Users/willianhf/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
