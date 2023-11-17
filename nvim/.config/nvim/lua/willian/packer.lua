@@ -61,5 +61,8 @@ return require('packer').startup(function(use)
       require("catppuccin").setup()
     end
   }
+
+  -- Syntax highlight for .esdl files
+  use 'edgedb/edgedb-vim'
 end)
 
