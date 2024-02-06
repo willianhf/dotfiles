@@ -184,3 +184,8 @@ bindkey '^[[Z' autosuggest-accept  # shift + tab  | autosuggest
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+[ -s "/Users/willianhf/.jabba/jabba.sh" ] && source "/Users/willianhf/.jabba/jabba.sh"
+
+# custom bins
+export PATH="$HOME/projects/youtify:$PATH"
