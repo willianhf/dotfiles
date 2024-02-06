@@ -128,11 +128,12 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
+    'projekt0n/github-nvim-theme',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      require('github-theme').setup()
+      vim.cmd.colorscheme 'github_dark'
     end,
   },
 
@@ -168,6 +169,8 @@ require('lazy').setup({
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-ui-select.nvim',
+      "nvim-telescope/telescope-frecency.nvim",
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
       -- Only load if `make` is available. Make sure you have the system
       -- requirements installed.
@@ -182,6 +185,9 @@ require('lazy').setup({
       },
     },
   },
+
+  'nvim-telescope/telescope-ui-select.nvim',
+  'nvim-telescope/telescope-frecency.nvim',
 
   {
     -- Highlight, edit, and navigate code

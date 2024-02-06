@@ -1,33 +1,115 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
+local actions = require("telescope.actions")
+local function formattedName(_, path)
+  local tail = vim.fs.basename(path)
+  local parent = vim.fs.dirname(path)
+  if parent == "." then
+    return tail
+  end
+  return string.format("%s\t\t%s", tail, parent)
+end
+
 require('telescope').setup {
   defaults = {
     file_ignore_patterns = { "%.git/", "node_modules/", "coverage/", "__pycache__/", "%.o" },
     mappings = {
       i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
+        ["<C-u>"] = false,
+        ["<C-d>"] = false,
+        ["<esc>"] = actions.close,
       },
     },
-    buffers = {
-      sort_lastused = true,
-      mappings = {
-        i = {
-          ["<C-x>"] = "delete_buffer"
-        },
-      },
+    previewer = false,
+    layout_config = {
+      prompt_position = "top",
+      preview_cutoff = 120,
     },
   },
   pickers = {
     find_files = {
+      previewer = false,
       hidden = true,
-      no_ignore = false
+      no_ignore = false,
+      path_display = formattedName,
+      layout_config = {
+        height = 0.4,
+        prompt_position = "top",
+        preview_cutoff = 120,
+      },
+    },
+    buffers = {
+      previewer = false,
+      path_display = formattedName,
+      mappings = {
+        i = {
+          ["<c-d>"] = actions.delete_buffer,
+        },
+        n = {
+          ["<c-d>"] = actions.delete_buffer,
+        },
+      },
+      layout_config = {
+        height = 0.4,
+        width = 0.6,
+        prompt_position = "top",
+        preview_cutoff = 120,
+      },
+    },
+    git_files = {
+      previewer = false,
+      path_display = formattedName,
+      layout_config = {
+        height = 0.4,
+        prompt_position = "top",
+        preview_cutoff = 120,
+      },
+    },
+  },
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown({
+        previewer = false,
+        initial_mode = "normal",
+        sorting_strategy = "ascending",
+        layout_strategy = "horizontal",
+        layout_config = {
+          horizontal = {
+            width = 0.5,
+            height = 0.4,
+            preview_width = 0.6,
+          },
+        },
+      }),
+    },
+    frecency = {
+      default_workspace = "CWD",
+      show_scores = true,
+      show_unindexed = true,
+      disable_devicons = true,
+      previewer = false,
+      layout_config = {
+        height = 0.4,
+        prompt_position = "top",
+        preview_cutoff = 120,
+      },
+      ignore_patterns = {
+        "*.git/*",
+        "*/tmp/*",
+        "*/lua-language-server/*",
+      },
     },
   },
 }
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+
+-- Enable telescope ui-select, if installed
+pcall(require('telescope').load_extension, 'ui-select')
+--
+-- Enable telescope frecency, if installed
+pcall(require('telescope').load_extension, 'frecency')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -92,5 +174,4 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-
--- vim: ts=2 sts=2 sw=2 et
+vim.keymap.set('n', '<leader>se', ':Telescope frecency<cr>', { desc = 'Frecency' })
