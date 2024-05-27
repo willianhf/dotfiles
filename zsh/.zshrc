@@ -188,3 +188,5 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "/Users/willianhf/.jabba/jabba.sh" ] && source "/Users/willianhf/.jabba/jabba.sh"
 
 eval "$(zoxide init zsh)"
+
+alias cd="z"
