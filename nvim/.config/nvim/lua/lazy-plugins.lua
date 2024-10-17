@@ -160,7 +160,6 @@ require('lazy').setup({
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
-      "nvim-telescope/telescope-frecency.nvim",
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
       -- Only load if `make` is available. Make sure you have the system
       -- requirements installed.
@@ -177,7 +176,6 @@ require('lazy').setup({
   },
 
   'nvim-telescope/telescope-ui-select.nvim',
-  'nvim-telescope/telescope-frecency.nvim',
 
   {
     -- Highlight, edit, and navigate code
