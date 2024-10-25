@@ -8,12 +8,13 @@ apps=(
   git
   tmux
   httpie
+  stow
   neovim
-  nvm
+  n
   zoxide
   spaceship
   oven-sh/bun/bun
-  jabba
+  openjdk
   fzf
   orbstack
 )
