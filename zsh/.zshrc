@@ -8,6 +8,7 @@ export ZSH="/Users/willianf/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+source /opt/homebrew/opt/spaceship/spaceship.zsh
 ZSH_THEME="spaceship"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -109,6 +110,7 @@ fpath+=~/.zfunc
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
@@ -151,11 +153,6 @@ bindkey '^[[Z' autosuggest-accept  # shift + tab  | autosuggest
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-[ -s "/Users/willianhf/.jabba/jabba.sh" ] && source "/Users/willianhf/.jabba/jabba.sh"
-
 eval "$(zoxide init zsh)"
 
-alias cd="z"
-
 alias lg="lazygit"
-source /opt/homebrew/opt/spaceship/spaceship.zsh
