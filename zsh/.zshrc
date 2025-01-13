@@ -92,6 +92,8 @@ alias gco='git checkout'
 alias gps='git push'
 alias gpl='git pull'
 
+alias gbs="$HOME/scripts/branch_switch.sh"
+
 # tmux
 alias tma='tmux attach -t'
 alias tmn='tmux new -s'
@@ -156,3 +158,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 eval "$(zoxide init zsh)"
 
 alias lg="lazygit"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
