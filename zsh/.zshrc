@@ -119,9 +119,6 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-export PUPPETEER_EXECUTABLE_PATH=`which chromium`
-
 export TERM=xterm-256color
 
 autoload -U +X bashcompinit && bashcompinit
@@ -159,6 +156,7 @@ eval "$(zoxide init zsh)"
 
 alias lg="lazygit"
 
-
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
