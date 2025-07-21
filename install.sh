@@ -28,6 +28,8 @@ brew install --cask ghostty
 brew install --cask spotify
 brew install --cask 1password
 brew install --cask thebrowsercompany-dia
+brew install --cask discord
+brew install --cask whatsapp
 
 # installs xcode cli tools
 xcode-select --install
