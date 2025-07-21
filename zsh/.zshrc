@@ -122,7 +122,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export TERM=xterm-256color
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -153,10 +152,5 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 eval "$(zoxide init zsh)"
-
-alias lg="lazygit"
-
-# Load Angular CLI autocompletion.
-source <(ng completion script)
 
 eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
