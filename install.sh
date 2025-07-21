@@ -13,7 +13,6 @@ apps=(
   zoxide
   spaceship
   oven-sh/bun/bun
-  openjdk
   fzf
   orbstack
   fnm
@@ -23,7 +22,6 @@ brew install "${apps[@]}"
 
 brew install --cask raycast
 brew install --cask ghostty
-brew install --cask arc
 brew install --cask spotify
 
 # installs oh-my-zsh
